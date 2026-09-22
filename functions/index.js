@@ -103,11 +103,11 @@ function withPrivacyHeaders(res) {
     "Content-Security-Policy",
     [
       "default-src 'none'",
-      "style-src 'unsafe-inline'",     // inline <style> only
-      "img-src 'self' data:",          // no third-party images
-      "font-src 'none'",               // system fonts only
-      "script-src 'none'",             // no JS at all
-      "connect-src 'none'",            // no XHR/fetch/websocket from page
+      "style-src 'unsafe-inline'",
+      "img-src 'self' data:",
+      "font-src 'none'",
+      "script-src 'none'",
+      "connect-src 'none'",
       "form-action 'self'",
       "frame-ancestors 'none'",
       "base-uri 'none'",
