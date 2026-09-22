@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/", "/out", "/privacy"],
+  "include": ["/", "/out", "/privacy", "/search"],
   "exclude": []
 }
