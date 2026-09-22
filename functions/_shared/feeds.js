@@ -1,12 +1,73 @@
 export const FEEDS = [
-  { name: "BBC News",        url: "https://feeds.bbci.co.uk/news/rss.xml",                    category: "world" },
-  { name: "Reuters",         url: "https://feeds.reuters.com/reuters/topNews",                category: "world" },
-  { name: "The Guardian",    url: "https://www.theguardian.com/world/rss",                    category: "world" },
-  { name: "Ars Technica",    url: "https://feeds.arstechnica.com/arstechnica/index",          category: "tech" },
-  { name: "Hacker News",     url: "https://hnrss.org/frontpage",                              category: "tech" },
-  { name: "The Verge",       url: "https://www.theverge.com/rss/index.xml",                   category: "tech" },
-  { name: "NPR",             url: "https://feeds.npr.org/1001/rss.xml",                       category: "world" },
-  { name: "Al Jazeera",      url: "https://www.aljazeera.com/xml/rss/all.xml",                category: "world" },
+  // ── World News ──────────────────────────────────────────────────────────
+  { name: "BBC News",              url: "https://feeds.bbci.co.uk/news/rss.xml",                          category: "world" },
+  { name: "BBC World",             url: "https://feeds.bbci.co.uk/news/world/rss.xml",                    category: "world" },
+  { name: "Reuters",               url: "https://feeds.reuters.com/reuters/topNews",                      category: "world" },
+  { name: "The Guardian",          url: "https://www.theguardian.com/world/rss",                          category: "world" },
+  { name: "NPR",                   url: "https://feeds.npr.org/1001/rss.xml",                            category: "world" },
+  { name: "Al Jazeera",            url: "https://www.aljazeera.com/xml/rss/all.xml",                      category: "world" },
+  { name: "CNN World",             url: "http://rss.cnn.com/rss/edition_world.rss",                       category: "world" },
+  { name: "New York Times World",  url: "https://www.nytimes.com/section/world/rss.xml",                  category: "world" },
+  { name: "Washington Post World", url: "https://feeds.washingtonpost.com/rss/world",                     category: "world" },
+  { name: "Deutsche Welle",        url: "https://rss.dw.com/rdf/rss-en-all",                              category: "world" },
+  { name: "France 24",             url: "https://www.france24.com/en/rss",                                category: "world" },
+  { name: "South China Morning Post", url: "https://www.scmp.com/rss/2/feed",                             category: "world" },
+  { name: "The Hindu",             url: "https://www.thehindu.com/news/feeder/default.rss",               category: "world" },
+  { name: "ABC News Australia",    url: "https://www.abc.net.au/news/feed/51120/rss.xml",                 category: "world" },
+  { name: "Sydney Morning Herald", url: "https://www.smh.com.au/rss/feed.xml",                            category: "world" },
+  { name: "AllAfrica",             url: "https://allafrica.com/tools/headlines/rdf/africa/headlines.rdf", category: "world" },
+
+  // ── Technology ──────────────────────────────────────────────────────────
+  { name: "Ars Technica",          url: "https://feeds.arstechnica.com/arstechnica/index",                category: "tech" },
+  { name: "Hacker News",           url: "https://hnrss.org/frontpage",                                    category: "tech" },
+  { name: "Hacker News Best",      url: "https://hnrss.org/best",                                         category: "tech" },
+  { name: "Hacker News Newest",    url: "https://hnrss.org/newest",                                       category: "tech" },
+  { name: "Hacker News Ask",       url: "https://hnrss.org/ask",                                          category: "tech" },
+  { name: "Hacker News Show",      url: "https://hnrss.org/show",                                         category: "tech" },
+  { name: "The Verge",             url: "https://www.theverge.com/rss/index.xml",                         category: "tech" },
+  { name: "TechCrunch",            url: "https://techcrunch.com/feed/",                                   category: "tech" },
+  { name: "Wired",                 url: "https://www.wired.com/feed/rss",                                 category: "tech" },
+  { name: "Engadget",              url: "https://www.engadget.com/rss.xml",                               category: "tech" },
+  { name: "ZDNet",                 url: "https://www.zdnet.com/news/rss.xml",                             category: "tech" },
+  { name: "MIT Technology Review", url: "https://www.technologyreview.com/feed/",                         category: "tech" },
+  { name: "VentureBeat",           url: "https://venturebeat.com/feed/",                                  category: "tech" },
+  { name: "Mashable",              url: "https://mashable.com/feeds/rss/all",                             category: "tech" },
+  { name: "Slashdot",              url: "https://rss.slashdot.org/Slashdot/slashdotMain",                 category: "tech" },
+  { name: "Cloudflare Blog",       url: "https://blog.cloudflare.com/rss/",                               category: "tech" },
+  { name: "GitHub Blog",           url: "https://github.blog/feed/",                                      category: "tech" },
+  { name: "Stack Overflow Blog",   url: "https://stackoverflow.blog/feed/",                               category: "tech" },
+  { name: "Vercel News",           url: "https://vercel.com/atom",                                        category: "tech" },
+
+  // ── Security ────────────────────────────────────────────────────────────
+  { name: "Krebs on Security",     url: "https://krebsonsecurity.com/feed/",                              category: "security" },
+  { name: "The Hacker News",       url: "https://feeds.feedburner.com/TheHackersNews",                    category: "security" },
+  { name: "Schneier on Security",  url: "https://www.schneier.com/feed/",                                 category: "security" },
+  { name: "CISA News",             url: "https://www.cisa.gov/news.xml",                                  category: "security" },
+  { name: "Google Security Blog",  url: "https://security.googleblog.com/atom.xml",                       category: "security" },
+  { name: "FreeBuf",               url: "https://www.freebuf.com/feed",                                   category: "security" },
+
+  // ── AI & Research ───────────────────────────────────────────────────────
+  { name: "OpenAI News",           url: "https://openai.com/news/rss.xml",                                category: "ai" },
+  { name: "Anthropic",             url: "https://www.anthropic.com/rss.xml",                              category: "ai" },
+  { name: "Hugging Face Blog",     url: "https://huggingface.co/blog/feed.xml",                           category: "ai" },
+  { name: "arXiv CS.AI",           url: "https://export.arxiv.org/rss/cs.AI",                             category: "ai" },
+  { name: "arXiv CS.LG",           url: "https://export.arxiv.org/rss/cs.LG",                             category: "ai" },
+  { name: "Google AI Blog",        url: "https://blog.google/technology/ai/rss/",                         category: "ai" },
+
+  // ── Business & Finance ──────────────────────────────────────────────────
+  { name: "Bloomberg Technology",  url: "https://feeds.bloomberg.com/technology/news.rss",                category: "business" },
+  { name: "Financial Times",       url: "https://www.ft.com/?format=rss",                                 category: "business" },
+  { name: "CNBC Technology",       url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910", category: "business" },
+  { name: "The Economist",         url: "https://www.economist.com/finance-and-economics/rss.xml",        category: "business" },
+  { name: "CoinDesk",              url: "https://www.coindesk.com/arc/outboundfeeds/rss/",                category: "business" },
+  { name: "CoinTelegraph",         url: "https://cointelegraph.com/rss",                                  category: "business" },
+
+  // ── Science & Space ─────────────────────────────────────────────────────
+  { name: "NASA Breaking News",    url: "https://www.nasa.gov/rss/dyn/breaking_news.rss",                 category: "science" },
+  { name: "Nature News",           url: "https://www.nature.com/nature.rss",                              category: "science" },
+  { name: "Science Daily",         url: "https://www.sciencedaily.com/rss/all.xml",                       category: "science" },
+  { name: "Phys.org",              url: "https://phys.org/rss-feed/",                                     category: "science" },
+  { name: "Space.com",             url: "https://www.space.com/feeds/all",                                category: "science" },
 ];
 
 /**
