@@ -5,24 +5,30 @@ export function renderPage({ title, body, categories }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
-  <meta name="description" content="A snippet-only RSS reader. Headlines and short descriptions link to the original publishers.">
+  <meta name="description" content="A privacy-first, snippet-only RSS reader. Headlines link out to original publishers. No tracking, no cookies, no analytics.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow">
+  <meta name="color-scheme" content="dark">
   <style>${styles()}</style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1><a href="/">news<span>.jao.life</span></a></h1>
-      <p class="subtitle">A calm feed of what's actually happening.</p>
+      <h1><a href="/" rel="noreferrer">news<span>.jao.life</span></a></h1>
+      <p class="subtitle">A calm feed of what's actually happening — without the tracking.</p>
 
       <div class="notice">
-        <strong>Heads up:</strong> this site shows <em>headlines and short snippets only</em>.
-        Every story links out to the original publisher — full articles live there, not here.
+        <strong>Privacy-first by design.</strong>
+        This site shows <em>headlines and short snippets only</em>. Every story opens a
+        preview page first, then links out to the original publisher with
+        <em>no referrer</em>. No cookies. No analytics. No third-party requests.
+        <a href="/privacy" rel="noreferrer">Read the full promise →</a>
       </div>
 
       <nav class="filters">
-        <a class="pill ${!categories.active ? "active" : ""}" href="/">all</a>
+        <a class="pill ${!categories.active ? "active" : ""}" href="/" rel="noreferrer">all</a>
         ${categories.list.map(c => `
-          <a class="pill ${categories.active === c ? "active" : ""}" href="/?cat=${c}">${c}</a>
+          <a class="pill ${categories.active === c ? "active" : ""}" href="/?cat=${encodeURIComponent(c)}" rel="noreferrer">${c}</a>
         `).join("")}
       </nav>
     </header>
@@ -33,10 +39,10 @@ export function renderPage({ title, body, categories }) {
 
     <footer>
       <div class="footer-brand">
-        This subdomain is a product of <a href="https://jao.life">jao.life</a> — a privacy-first ecosystem made by an indie developer.
+        This subdomain is a product of <a href="https://jao.life" rel="noreferrer noopener">jao.life</a> — a privacy-first ecosystem made by an indie developer.
       </div>
       <div class="footer-meta">
-        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies
+        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies · No third parties
       </div>
     </footer>
   </div>
@@ -108,6 +114,8 @@ function styles() {
     }
     .notice strong { color: var(--accent); }
     .notice em { color: var(--text); font-style: normal; font-weight: 500; }
+    .notice a { color: var(--link); text-decoration: none; }
+    .notice a:hover { text-decoration: underline; }
 
     .filters {
       display: flex;
@@ -181,6 +189,59 @@ function styles() {
       font-style: italic;
       text-align: center;
       padding: 3rem 0;
+    }
+
+    /* Out / preview page */
+    .out-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    .out-host {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 0.5rem;
+    }
+    .out-url {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      word-break: break-all;
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      margin: 0 0 1rem;
+    }
+    .out-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { border-color: var(--accent-strong); color: var(--accent); }
+    .btn.primary {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+      color: #1a1a1a;
+    }
+    .btn.primary:hover { color: #1a1a1a; filter: brightness(1.05); }
+    .out-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      line-height: 1.55;
     }
 
     footer {
