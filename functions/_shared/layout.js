@@ -5,6 +5,7 @@ export function renderPage({ title, body, categories }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
+  <meta name="description" content="A snippet-only RSS reader. Headlines and short descriptions link to the original publishers.">
   <style>${styles()}</style>
 </head>
 <body>
@@ -12,6 +13,12 @@ export function renderPage({ title, body, categories }) {
     <header>
       <h1><a href="/">news<span>.jao.life</span></a></h1>
       <p class="subtitle">A calm feed of what's actually happening.</p>
+
+      <div class="notice">
+        <strong>Heads up:</strong> this site shows <em>headlines and short snippets only</em>.
+        Every story links out to the original publisher — full articles live there, not here.
+      </div>
+
       <nav class="filters">
         <a class="pill ${!categories.active ? "active" : ""}" href="/">all</a>
         ${categories.list.map(c => `
@@ -29,7 +36,7 @@ export function renderPage({ title, body, categories }) {
         This subdomain is a product of <a href="https://jao.life">jao.life</a> — a privacy-first ecosystem made by an indie developer.
       </div>
       <div class="footer-meta">
-        Headlines link to the original publishers · No tracking · No cookies
+        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies
       </div>
     </footer>
   </div>
@@ -49,6 +56,8 @@ function styles() {
       --accent: #fcd34d;
       --accent-strong: #f59e0b;
       --link: #93c5fd;
+      --notice-bg: rgba(245,158,11,0.06);
+      --notice-border: rgba(245,158,11,0.25);
     }
     * { box-sizing: border-box; }
     body {
@@ -73,10 +82,7 @@ function styles() {
       font-weight: 700;
       letter-spacing: -0.02em;
     }
-    h1 a {
-      text-decoration: none;
-      color: var(--text);
-    }
+    h1 a { text-decoration: none; color: var(--text); }
     h1 a span {
       background: linear-gradient(135deg, #fcd34d, #f59e0b);
       -webkit-background-clip: text;
@@ -86,8 +92,23 @@ function styles() {
     .subtitle {
       color: var(--muted);
       font-size: 0.9rem;
+      margin: 0 0 1rem;
+    }
+
+    .notice {
+      background: var(--notice-bg);
+      border: 1px solid var(--notice-border);
+      border-left: 3px solid var(--accent-strong);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
       margin: 0 0 1.25rem;
     }
+    .notice strong { color: var(--accent); }
+    .notice em { color: var(--text); font-style: normal; font-weight: 500; }
+
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -146,11 +167,15 @@ function styles() {
       font-size: 0.72rem;
       color: var(--muted);
       align-items: center;
+      flex-wrap: wrap;
     }
-    .source {
-      color: var(--accent);
+    .source { color: var(--accent); font-weight: 500; }
+    .read-full {
+      margin-left: auto;
+      color: var(--link);
       font-weight: 500;
     }
+
     .empty {
       color: var(--muted);
       font-style: italic;
