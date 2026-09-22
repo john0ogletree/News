@@ -8,7 +8,6 @@ import { safeExternalUrl, escapeHtml } from "./_shared/utils.js";
  *   - show the destination host + full URL for inspection
  *   - require an explicit user click to continue
  *   - send no Referer from the destination link itself
- *     (rel="noreferrer" + page-level <meta name="referrer" content="no-referrer">)
  *   - never log, store, or transmit the target URL anywhere except in the HTML
  */
 export async function onRequest(context) {
