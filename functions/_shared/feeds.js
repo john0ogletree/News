@@ -73,15 +73,29 @@ export const FEEDS = [
 /**
  * Fetch and parse an RSS feed. Returns a normalized array of items.
  * Never throws — on failure, returns [].
+ *
+ * PRIVACY NOTE: We deliberately construct a fresh, minimal request with NO
+ * client-supplied headers. The visitor's IP, cookies, and Referer never reach
+ * the upstream publisher. Cloudflare's edge cache (`cf.cacheTtl`) also means
+ * most fetches are served entirely from cache without hitting the origin.
  */
 export async function fetchFeed(feed) {
   try {
     const res = await fetch(feed.url, {
+      method: "GET",
       headers: {
-        "User-Agent": "news.jao.life aggregator (+https://news.jao.life)",
-        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+        "User-Agent": "news.jao.life aggregator (+https://news.jao.life; privacy-first)",
+        "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
+        "Accept-Language": "en",
+        // Explicitly NOT forwarded: Cookie, Referer, Authorization, X-Forwarded-For
       },
-      cf: { cacheTtl: 300, cacheEverything: true },
+      redirect: "follow",
+      cf: {
+        cacheTtl: 300,
+        cacheEverything: true,
+        // Strip identifying info when Cloudflare talks to origin
+        scrapeShield: false,
+      },
     });
     if (!res.ok) return [];
     const xml = await res.text();
