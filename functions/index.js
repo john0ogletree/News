@@ -2,7 +2,7 @@ import { FEEDS, fetchFeed } from "./_shared/feeds.js";
 import { renderPage } from "./_shared/layout.js";
 import { timeAgo, escapeHtml, safeExternalUrl } from "./_shared/utils.js";
 
-const CACHE_TTL = 300; // 5 minutes
+const CACHE_TTL = 300;
 
 export async function onRequest(context) {
   const { request } = context;
@@ -16,23 +16,16 @@ export async function onRequest(context) {
   const cached = await cache.match(cacheKey);
   if (cached) return withPrivacyHeaders(cached);
 
-  // Fetch all feeds in parallel. fetchFeed uses a fresh request with no
-  // client headers — see feeds.js for the privacy rationale.
   const results = await Promise.all(FEEDS.map(fetchFeed));
   let items = results.flat();
 
-  if (activeCat) {
-    items = items.filter((i) => i.category === activeCat);
-  }
+  if (activeCat) items = items.filter((i) => i.category === activeCat);
 
-  // Sort newest first
   items.sort((a, b) => {
     const ta = a.pubDate ? new Date(a.pubDate).getTime() : 0;
     const tb = b.pubDate ? new Date(b.pubDate).getTime() : 0;
     return tb - ta;
   });
-
-  // Cap to avoid gigantic pages
   items = items.slice(0, 100);
 
   const categories = {
@@ -48,6 +41,7 @@ export async function onRequest(context) {
     title: activeCat ? `${activeCat} — news.jao.life` : "news.jao.life",
     body,
     categories,
+    query: "",
   });
 
   const response = new Response(html, {
@@ -61,11 +55,7 @@ export async function onRequest(context) {
   return withPrivacyHeaders(response);
 }
 
-/**
- * Story links route through /out?u=… so the publisher never sees a Referer
- * header from this page, and so the user gets a destination-preview screen.
- */
-function renderStory(item) {
+export function renderStory(item) {
   const dest = safeExternalUrl(item.link);
   if (!dest) return "";
   const outHref = `/out?u=${encodeURIComponent(dest)}`;
@@ -84,11 +74,11 @@ function renderStory(item) {
   `;
 }
 
-function hostOf(u) {
+export function hostOf(u) {
   try { return new URL(u).host; } catch { return "link"; }
 }
 
-function withPrivacyHeaders(res) {
+export function withPrivacyHeaders(res) {
   const headers = new Headers(res.headers);
   headers.set("Referrer-Policy", "no-referrer");
   headers.set("X-Content-Type-Options", "nosniff");
