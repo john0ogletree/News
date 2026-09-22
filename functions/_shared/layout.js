@@ -1,4 +1,4 @@
-export function renderPage({ title, body, categories }) {
+export function renderPage({ title, body, categories, query = "" }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +19,23 @@ export function renderPage({ title, body, categories }) {
     <header>
       <h1><a href="/" rel="noreferrer">news<span>.jao.life</span></a></h1>
       <p class="subtitle">A calm feed of what's actually happening — without the tracking.</p>
+
+      <form class="search" method="get" action="/search" role="search" autocomplete="off">
+        ${categories.active ? `<input type="hidden" name="cat" value="${escapeAttr(categories.active)}">` : ""}
+        <input
+          class="search-input"
+          type="search"
+          name="q"
+          value="${escapeAttr(query)}"
+          placeholder="Search headlines…"
+          aria-label="Search headlines"
+          enterkeyhint="search"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          maxlength="120">
+        <button class="search-btn" type="submit" aria-label="Search">Search</button>
+      </form>
 
       <div class="notice">
         <strong>Privacy-first by design.</strong>
@@ -53,6 +70,14 @@ export function renderPage({ title, body, categories }) {
 </html>`;
 }
 
+function escapeAttr(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function styles() {
   return `
     :root {
@@ -68,7 +93,6 @@ function styles() {
       --notice-bg: rgba(245,158,11,0.06);
       --notice-border: rgba(245,158,11,0.25);
 
-      /* Fluid scale — everything responds to viewport width */
       --step--1: clamp(0.72rem, 0.70rem + 0.10vw, 0.78rem);
       --step-0:  clamp(0.88rem, 0.85rem + 0.15vw, 0.95rem);
       --step-1:  clamp(1.00rem, 0.96rem + 0.20vw, 1.10rem);
@@ -78,7 +102,7 @@ function styles() {
       --gutter:   clamp(0.9rem, 4vw, 1.5rem);
       --radius:   12px;
       --radius-sm: 8px;
-      --tap:      44px; /* minimum accessible tap target */
+      --tap:      44px;
     }
 
     * { box-sizing: border-box; }
@@ -100,7 +124,6 @@ function styles() {
     }
     .wrap { max-width: 720px; margin: 0 auto; }
 
-    /* Skip link — visible on keyboard focus */
     .skip {
       position: absolute;
       left: -9999px;
@@ -114,10 +137,11 @@ function styles() {
     }
     .skip:focus { left: 0; }
 
-    /* Focus visibility for keyboard users */
     a:focus-visible,
     .pill:focus-visible,
-    .btn:focus-visible {
+    .btn:focus-visible,
+    .search-input:focus-visible,
+    .search-btn:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
       border-radius: var(--radius-sm);
@@ -148,6 +172,56 @@ function styles() {
       margin: 0 0 1rem;
     }
 
+    /* Search */
+    .search {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0 0 1rem;
+    }
+    .search-input {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: var(--tap);
+      padding: 0.55rem 0.85rem;
+      font: inherit;
+      font-size: var(--step-0);
+      color: var(--text);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: border-color 0.15s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search-input::placeholder { color: var(--muted); opacity: 0.85; }
+    .search-input:hover { border-color: var(--accent-strong); }
+    .search-input:focus { border-color: var(--accent-strong); }
+    .search-input::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search-btn {
+      flex: 0 0 auto;
+      min-height: var(--tap);
+      padding: 0.55rem 1rem;
+      font: inherit;
+      font-size: var(--step-0);
+      font-weight: 500;
+      color: #1a1a1a;
+      background: var(--accent-strong);
+      border: 1px solid var(--accent-strong);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: filter 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .search-btn:hover { filter: brightness(1.05); }
+    @media (max-width: 420px) {
+      .search { flex-wrap: wrap; }
+      .search-input { flex-basis: 100%; }
+      .search-btn { flex-basis: 100%; }
+    }
+
     .notice {
       background: var(--notice-bg);
       border: 1px solid var(--notice-border);
@@ -164,7 +238,6 @@ function styles() {
     .notice a { color: var(--link); text-decoration: none; white-space: nowrap; }
     .notice a:hover { text-decoration: underline; }
 
-    /* Category pills — horizontal scroll on tiny screens, wrap on larger */
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -207,7 +280,6 @@ function styles() {
       .filters::-webkit-scrollbar { display: none; }
     }
 
-    /* Stories */
     .story {
       display: block;
       padding: clamp(0.85rem, 3vw, 1.1rem) clamp(0.9rem, 3.5vw, 1.15rem);
@@ -220,7 +292,6 @@ function styles() {
       transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
       -webkit-tap-highlight-color: transparent;
     }
-    /* Only shift on hover for pointer devices, not touch */
     @media (hover: hover) and (pointer: fine) {
       .story:hover {
         background: var(--card-hover);
@@ -246,7 +317,6 @@ function styles() {
       color: var(--muted);
       margin: 0 0 0.6rem;
       line-height: 1.5;
-      /* Clamp long descriptions on mobile */
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -260,10 +330,7 @@ function styles() {
       align-items: center;
       flex-wrap: wrap;
     }
-    .source {
-      color: var(--accent);
-      font-weight: 500;
-    }
+    .source { color: var(--accent); font-weight: 500; }
     .read-full {
       margin-left: auto;
       color: var(--link);
@@ -274,11 +341,7 @@ function styles() {
       text-overflow: ellipsis;
     }
     @media (max-width: 420px) {
-      /* On very small screens, push destination to its own line */
-      .read-full {
-        margin-left: 0;
-        flex-basis: 100%;
-      }
+      .read-full { margin-left: 0; flex-basis: 100%; }
     }
 
     .empty {
@@ -289,7 +352,20 @@ function styles() {
       font-size: var(--step-0);
     }
 
-    /* Out / preview / privacy pages */
+    /* Search results header */
+    .results-head {
+      font-size: var(--step-0);
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .results-head strong { color: var(--text); font-weight: 600; }
+    .results-head .clear {
+      color: var(--link);
+      text-decoration: none;
+      margin-left: 0.5rem;
+    }
+    .results-head .clear:hover { text-decoration: underline; }
+
     .out-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -318,11 +394,7 @@ function styles() {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
-    .out-actions {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
+    .out-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
     .out-actions .btn { flex: 1 1 auto; justify-content: center; }
     @media (max-width: 420px) {
       .out-actions .btn { flex-basis: 100%; }
@@ -359,12 +431,8 @@ function styles() {
       line-height: 1.6;
     }
 
-    /* Privacy page lists */
     .out-card h3 { font-size: var(--step-1); }
-    .out-card ul {
-      padding-left: 1.2rem;
-      margin: 0;
-    }
+    .out-card ul { padding-left: 1.2rem; margin: 0; }
     .out-card li { margin-bottom: 0.3rem; }
 
     footer {
@@ -384,11 +452,8 @@ function styles() {
       color: var(--text);
     }
     .footer-brand a { color: var(--accent); }
-    .footer-meta {
-      font-size: var(--step--1);
-    }
+    .footer-meta { font-size: var(--step--1); }
 
-    /* Prefer reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         transition: none !important;
