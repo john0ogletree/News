@@ -3,14 +3,14 @@ import { renderPage } from "./_shared/layout.js";
 export async function onRequest() {
   const body = `
     <div class="out-card">
-      <h2 class="out-host" style="font-size:1.35rem;">Our privacy promise</h2>
+      <h2 class="out-host" style="font-size:var(--step-2);">Our privacy promise</h2>
       <p class="out-note" style="margin-top:0.5rem;">
         news.jao.life is built to be the least invasive way to read the news.
         Here is exactly what we do and don't do:
       </p>
 
-      <h3 style="color:var(--accent);font-size:1rem;margin:1.25rem 0 0.4rem;">What we don't do</h3>
-      <ul style="color:var(--muted);font-size:0.85rem;line-height:1.7;padding-left:1.2rem;margin:0;">
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we don't do</h3>
+      <ul style="color:var(--muted);line-height:1.7;">
         <li>No cookies. None. Not even a session cookie.</li>
         <li>No analytics, no pixels, no beacons, no fingerprinting.</li>
         <li>No third-party requests from the page — no CDNs, no fonts, no ads, no trackers.</li>
@@ -19,8 +19,8 @@ export async function onRequest() {
         <li>No account, no email, no login.</li>
       </ul>
 
-      <h3 style="color:var(--accent);font-size:1rem;margin:1.25rem 0 0.4rem;">What we do</h3>
-      <ul style="color:var(--muted);font-size:0.85rem;line-height:1.7;padding-left:1.2rem;margin:0;">
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we do</h3>
+      <ul style="color:var(--muted);line-height:1.7;">
         <li>Fetch RSS feeds server-side, with a generic User-Agent, and cache them at the edge for 5 minutes.</li>
         <li>Strip your <code>Referer</code> header on every outbound click
             (<code>Referrer-Policy: no-referrer</code>).</li>
@@ -30,8 +30,8 @@ export async function onRequest() {
             from Cloudflare's edge without ever touching an origin server.</li>
       </ul>
 
-      <h3 style="color:var(--accent);font-size:1rem;margin:1.25rem 0 0.4rem;">What we technically must process</h3>
-      <ul style="color:var(--muted);font-size:0.85rem;line-height:1.7;padding-left:1.2rem;margin:0;">
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we technically must process</h3>
+      <ul style="color:var(--muted);line-height:1.7;">
         <li>Your IP address reaches Cloudflare (our host) to deliver the page, as it does for any website.
             We don't store it and don't correlate it with what you read.</li>
         <li>Standard Cloudflare edge logs may exist briefly for abuse prevention, under
