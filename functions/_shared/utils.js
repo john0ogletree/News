@@ -25,6 +25,14 @@ export function escapeHtml(str) {
 }
 
 /**
+ * Like escapeHtml but also safe for use inside HTML attribute values.
+ * (escapeHtml already covers quotes, so this is an alias kept for clarity.)
+ */
+export function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
+/**
  * Only allow http(s) URLs we can safely hand to /out.
  * Rejects javascript:, data:, file:, vbscript:, etc.
  * Returns a normalized string or null.
