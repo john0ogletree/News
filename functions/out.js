@@ -34,13 +34,15 @@ export async function onRequest(context) {
 
   const u = new URL(dest);
   const host = u.host;
+  const safeDest = escapeHtml(dest);
+  const safeHost = escapeHtml(host);
   const body = `
     <div class="out-card">
-      <p class="out-host">${escapeHtml(host)}</p>
-      <p class="out-url">${escapeHtml(dest)}</p>
+      <p class="out-host">${safeHost}</p>
+      <p class="out-url">${safeDest}</p>
       <div class="out-actions">
-        <a class="btn primary" href="${escapeHtml(dest)}" rel="noreferrer noopener" referrerpolicy="no-referrer">
-          Continue to ${escapeHtml(host)} →
+        <a class="btn primary" href="${safeDest}" rel="noreferrer noopener" referrerpolicy="no-referrer">
+          Continue to ${safeHost} →
         </a>
         <a class="btn" href="/" rel="noreferrer">← Back</a>
       </div>
