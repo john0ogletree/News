@@ -93,7 +93,6 @@ export async function fetchFeed(feed) {
       cf: {
         cacheTtl: 300,
         cacheEverything: true,
-        // Strip identifying info when Cloudflare talks to origin
         scrapeShield: false,
       },
     });
@@ -107,12 +106,22 @@ export async function fetchFeed(feed) {
 
 /**
  * Minimal RSS + Atom parser. Returns [{ title, link, description, pubDate, source, category }]
+ *
+ * Strategy: strip CDATA sections first (replacing them with their contents),
+ * then extract tags. This avoids the nesting pitfalls of regex-matching
+ * <item>...</item> when CDATA contains literal markup.
  */
 function parseRSS(xml, feed) {
   const items = [];
 
-  // <item> (RSS 2.0) or <entry> (Atom)
-  const blocks = xml.match(/<item[\s>][\s\S]*?<\/item>|<entry[\s>][\s\S]*?<\/entry>/gi) || [];
+  // Strip XML comments so they can't confuse tag matching.
+  const cleaned = xml.replace(/<!--[\s\S]*?-->/g, "");
+
+  // Match <item> (RSS) or <entry> (Atom). Require whitespace or > after the
+  // tag name so <items> / <entries> containers don't match.
+  const blocks = cleaned.match(
+    /<item(?:\s[^>]*)?>[\s\S]*?<\/item>|<entry(?:\s[^>]*)?>[\s\S]*?<\/entry>/gi
+  ) || [];
 
   for (const block of blocks) {
     const title = extractTag(block, "title");
@@ -125,11 +134,17 @@ function parseRSS(xml, feed) {
 
     if (!title || !link) continue;
 
+    let isoDate = null;
+    if (pubDate) {
+      const d = new Date(pubDate);
+      if (!isNaN(d.getTime())) isoDate = d.toISOString();
+    }
+
     items.push({
       title: cleanText(title),
       link: link.trim(),
       description: cleanText(stripHTML(description || "")).slice(0, 240),
-      pubDate: pubDate ? new Date(pubDate).toISOString() : null,
+      pubDate: isoDate,
       source: feed.name,
       category: feed.category,
     });
@@ -139,21 +154,32 @@ function parseRSS(xml, feed) {
 }
 
 function extractTag(block, tag) {
-  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i");
+  // Use a backreference on the tag name and disallow '>' inside the attribute
+  // portion to reduce the chance of runaway matches.
+  const re = new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${tag}>`, "i");
   const m = block.match(re);
   if (!m) return null;
-  return m[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim();
+  // Unwrap any CDATA sections (possibly multiple) inside the captured content.
+  const unwrapped = m[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+  return unwrapped.trim();
 }
 
 function extractLink(block) {
+  // Atom: <link href="https://..." /> — check this first because Atom often
+  // has multiple <link> elements (rel="self", rel="alternate", etc.) and the
+  // href-based form is unambiguous.
+  const atomLink = block.match(
+    /<link\b[^>]*\bhref=["']([^"']+)["'][^>]*\/?>/i
+  );
   // RSS: <link>https://...</link>
-  const plain = block.match(/<link[^>]*>([\s\S]*?)<\/link>/i);
-  if (plain && plain[1].trim()) return plain[1].trim();
+  const rssLink = block.match(/<link(?:\s[^>]*)?>([\s\S]*?)<\/link>/i);
 
-  // Atom: <link href="https://..." />
-  const href = block.match(/<link[^>]*href=["']([^"']+)["']/i);
-  if (href) return href[1];
-
+  // Prefer RSS form when it's a real URL; fall back to Atom href form.
+  if (rssLink && rssLink[1].trim()) {
+    const inner = rssLink[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").trim();
+    if (inner) return inner;
+  }
+  if (atomLink) return atomLink[1];
   return null;
 }
 
@@ -165,12 +191,33 @@ function cleanText(str) {
   return decodeEntities(str).replace(/\s+/g, " ").trim();
 }
 
+const NAMED_ENTITIES = {
+  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ",
+  copy: "©", reg: "®", trade: "™",
+  hellip: "…", mdash: "—", ndash: "–",
+  lsquo: "'", rsquo: "'", ldquo: '"', rdquo: '"',
+  laquo: "«", raquo: "»",
+  bull: "•", middot: "·", deg: "°",
+  euro: "€", pound: "£", yen: "¥", cent: "¢",
+  times: "×", divide: "÷",
+};
+
 function decodeEntities(str) {
-  const entities = {
-    "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"',
-    "&#39;": "'", "&apos;": "'", "&nbsp;": " ",
-    "&#8217;": "'", "&#8216;": "'", "&#8220;": '"', "&#8221;": '"',
-    "&#8212;": "—", "&#8211;": "–",
-  };
-  return str.replace(/&[#\w]+;/g, (m) => entities[m] || m);
+  return str.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, body) => {
+    if (body[0] === "#") {
+      const isHex = body[1] === "x" || body[1] === "X";
+      const codeStr = isHex ? body.slice(2) : body.slice(1);
+      const code = parseInt(codeStr, isHex ? 16 : 10);
+      if (!isNaN(code) && code >= 0 && code <= 0x10ffff) {
+        try {
+          return String.fromCodePoint(code);
+        } catch {
+          return m;
+        }
+      }
+      return m;
+    }
+    const named = NAMED_ENTITIES[body.toLowerCase()];
+    return named !== undefined ? named : m;
+  });
 }
