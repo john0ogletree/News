@@ -1,4 +1,7 @@
+import { escapeHtml } from "./utils.js";
+
 export function renderPage({ title, body, categories, query = "" }) {
+  const safeTitle = escapeHtml(title);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +12,7 @@ export function renderPage({ title, body, categories, query = "" }) {
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="index, follow">
   <meta name="color-scheme" content="dark">
-  <title>${title}</title>
+  <title>${safeTitle}</title>
   <style>${styles()}</style>
 </head>
 <body>
@@ -48,7 +51,7 @@ export function renderPage({ title, body, categories, query = "" }) {
       <nav class="filters" aria-label="Categories">
         <a class="pill ${!categories.active ? "active" : ""}" href="/" rel="noreferrer">all</a>
         ${categories.list.map(c => `
-          <a class="pill ${categories.active === c ? "active" : ""}" href="/?cat=${encodeURIComponent(c)}" rel="noreferrer">${c}</a>
+          <a class="pill ${categories.active === c ? "active" : ""}" href="/?cat=${encodeURIComponent(c)}" rel="noreferrer">${escapeHtml(c)}</a>
         `).join("")}
       </nav>
     </header>
