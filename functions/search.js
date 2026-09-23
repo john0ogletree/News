@@ -1,6 +1,6 @@
 import { FEEDS, fetchFeed } from "./_shared/feeds.js";
 import { renderPage } from "./_shared/layout.js";
-import { renderStory, hostOf, withPrivacyHeaders } from "./index.js";
+import { renderStory, withPrivacyHeaders } from "./index.js";
 import { escapeHtml } from "./_shared/utils.js";
 
 /**
@@ -95,5 +95,5 @@ function renderResultsHead({ q, activeCat, count }) {
   if (activeCat) clearParams.push(`cat=${encodeURIComponent(activeCat)}`);
   const clearHref = clearParams.length ? `/?${clearParams.join("&")}` : "/";
 
-  return `<p class="results-head">Found <strong>${count}</strong> ${count === 1 ? "story" : "stories"} matching ${parts.join(" ")}.<a class="clear" href="${clearHref}" rel="noreferrer">clear</a></p>`;
+  return `<p class="results-head">Found <strong>${count}</strong> ${count === 1 ? "story" : "stories"} matching ${parts.join(" ")}.<a class="clear" href="${escapeHtml(clearHref)}" rel="noreferrer">clear</a></p>`;
 }
