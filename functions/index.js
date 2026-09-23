@@ -61,14 +61,19 @@ export function renderStory(item) {
   const outHref = `/out?u=${encodeURIComponent(dest)}`;
   const host = hostOf(dest);
 
+  const title = escapeHtml(item.title || "");
+  const desc = item.description ? escapeHtml(item.description) : "";
+  const source = escapeHtml(item.source || "");
+  const hostEsc = escapeHtml(host);
+
   return `
     <a class="story" href="${escapeHtml(outHref)}" rel="noreferrer noopener">
-      <h2 class="story-title">${escapeHtml(item.title)}</h2>
-      ${item.description ? `<p class="story-desc">${escapeHtml(item.description)}</p>` : ""}
+      <h2 class="story-title">${title}</h2>
+      ${desc ? `<p class="story-desc">${desc}</p>` : ""}
       <div class="story-meta">
-        <span class="source">${escapeHtml(item.source)}</span>
-        ${item.pubDate ? `<span>${timeAgo(item.pubDate)}</span>` : ""}
-        <span class="read-full">${escapeHtml(host)} →</span>
+        <span class="source">${source}</span>
+        ${item.pubDate ? `<span>${escapeHtml(timeAgo(item.pubDate))}</span>` : ""}
+        <span class="read-full">${hostEsc} →</span>
       </div>
     </a>
   `;
