@@ -44,13 +44,13 @@ export function renderPage({ title, body, categories, query = "" }) {
       </form>
 
       <div class="notice">
-        <strong>Privacy-first by design.</strong>
-        This site shows <em>headlines and short snippets only</em>. Every story opens a
+        <strong>I built this to be private by design.</strong>
+        I show <em>headlines and short snippets only</em>. Every story opens a
         preview page first, then links out to the original publisher with
         <em>no referrer</em>. No cookies. No analytics. The only script on the page is
-        our own first-party support widget (<em>support.jao.life</em>), which sets no
+        my own support widget (<em>support.jao.life</em>), which sets no
         cookies and does no tracking.
-        <a href="/privacy" rel="noreferrer">Read the full promise →</a>
+        <a href="/privacy" rel="noreferrer">Read my full promise →</a>
       </div>
 
       <nav class="filters" aria-label="Categories">
@@ -67,10 +67,10 @@ export function renderPage({ title, body, categories, query = "" }) {
 
     <footer>
       <div class="footer-brand">
-        This subdomain is a product of <a href="https://jao.life" rel="noreferrer noopener">jao.life</a> — a privacy-first ecosystem made by an indie developer.
+        I make <a href="https://jao.life" rel="noreferrer noopener">jao.life</a> — a privacy-first ecosystem built by one indie developer. This subdomain is part of it.
       </div>
       <div class="footer-meta">
-        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies · No analytics · One first-party support script, no trackers
+        Snippet aggregator · Headlines link to original publishers · I host no full articles here · No tracking · No cookies · No analytics · One support script I wrote myself, no trackers
       </div>
     </footer>
   </div>
