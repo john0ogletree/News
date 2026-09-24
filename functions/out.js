@@ -77,7 +77,7 @@ function htmlResponse(html, status) {
         "style-src 'unsafe-inline'",
         "img-src 'self' data:",
         "font-src 'none'",
-        "script-src 'none'",
+        "script-src https://support.jao.life",
         "connect-src 'none'",
         "form-action 'none'",
         "frame-ancestors 'none'",
