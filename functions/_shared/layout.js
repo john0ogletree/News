@@ -47,7 +47,9 @@ export function renderPage({ title, body, categories, query = "" }) {
         <strong>Privacy-first by design.</strong>
         This site shows <em>headlines and short snippets only</em>. Every story opens a
         preview page first, then links out to the original publisher with
-        <em>no referrer</em>. No cookies. No analytics. No third-party requests.
+        <em>no referrer</em>. No cookies. No analytics. The only script on the page is
+        our own first-party support widget (<em>support.jao.life</em>), which sets no
+        cookies and does no tracking.
         <a href="/privacy" rel="noreferrer">Read the full promise →</a>
       </div>
 
@@ -68,7 +70,7 @@ export function renderPage({ title, body, categories, query = "" }) {
         This subdomain is a product of <a href="https://jao.life" rel="noreferrer noopener">jao.life</a> — a privacy-first ecosystem made by an indie developer.
       </div>
       <div class="footer-meta">
-        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies · No third parties
+        Snippet aggregator · Headlines link to original publishers · No full articles hosted here · No tracking · No cookies · No analytics · One first-party support script, no trackers
       </div>
     </footer>
   </div>
