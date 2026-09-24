@@ -14,7 +14,10 @@ export async function onRequest() {
         <li>No cookies. None. Not even a session cookie.</li>
         <li>No analytics, no pixels, no beacons, no fingerprinting.</li>
         <li>No third-party requests from the page — no CDNs, no fonts, no ads, no trackers.</li>
-        <li>No JavaScript on the page (CSP <code>script-src 'none'</code>).</li>
+        <li>No third-party scripts, no analytics, no trackers. One first-party
+            support widget (<code>support.jao.life</code>) loads via
+            <code>&lt;script defer&gt;</code> to show ways you can support the site.
+            It runs no analytics and sets no cookies.</li>
         <li>No server-side logging of which stories you open or which categories you browse.</li>
         <li>No account, no email, no login.</li>
       </ul>
@@ -69,7 +72,7 @@ export async function onRequest() {
         "style-src 'unsafe-inline'",
         "img-src 'self' data:",
         "font-src 'none'",
-        "script-src 'none'",
+        "script-src https://support.jao.life",
         "connect-src 'none'",
         "form-action 'none'",
         "frame-ancestors 'none'",
