@@ -14,6 +14,9 @@ export function renderPage({ title, body, categories, query = "" }) {
   <meta name="color-scheme" content="dark">
   <title>${safeTitle}</title>
   <style>${styles()}</style>
+  <script src="https://support.jao.life/support.js"
+          crossorigin="anonymous"
+          defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
