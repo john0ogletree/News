@@ -4,9 +4,9 @@ import { safeExternalUrl, escapeHtml } from "./_shared/utils.js";
 /**
  * /out?u=<encoded url>
  *
- * Privacy exit page. We:
- *   - show the destination host + full URL for inspection
- *   - require an explicit user click to continue
+ * My privacy exit page. I:
+ *   - show the destination host + full URL so you can inspect it
+ *   - require an explicit click from you to continue
  *   - send no Referer from the destination link itself
  *   - never log, store, or transmit the target URL anywhere except in the HTML
  */
@@ -21,8 +21,8 @@ export async function onRequest(context) {
       title: "Invalid link — news.jao.life",
       body: `
         <div class="out-card">
-          <p class="out-host">That link couldn't be opened.</p>
-          <p class="out-note">It may be malformed or use an unsupported protocol. Only <code>http:</code> and <code>https:</code> links are allowed.</p>
+          <p class="out-host">I couldn't open that link.</p>
+          <p class="out-note">It may be malformed or use an unsupported protocol. I only allow <code>http:</code> and <code>https:</code> links.</p>
           <div class="out-actions">
             <a class="btn primary" href="/" rel="noreferrer">← Back to headlines</a>
           </div>
@@ -48,8 +48,8 @@ export async function onRequest(context) {
       </div>
       <p class="out-note">
         You're about to leave <strong>news.jao.life</strong> and open the publisher's site directly.
-        We send <strong>no referrer</strong> and no identifying information — the publisher will not
-        know you came from here. Their site has its own privacy policy, which we don't control.
+        I send <strong>no referrer</strong> and no identifying information — the publisher will not
+        know you came from here. Their site has its own privacy policy, which I don't control.
       </p>
     </div>
   `;
