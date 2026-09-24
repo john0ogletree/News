@@ -6,31 +6,48 @@ export async function onRequest() {
       <h2 class="out-host" style="font-size:var(--step-2);">Our privacy promise</h2>
       <p class="out-note" style="margin-top:0.5rem;">
         news.jao.life is built to be the least invasive way to read the news.
-        Here is exactly what we do and don't do:
+        Here is exactly what we do, what we don't do, and what loads when you open a page.
+      </p>
+
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">Every request a page makes</h3>
+      <p class="out-note" style="margin-top:0;">
+        When you open any page on this site, your browser makes exactly these requests:
+      </p>
+      <ul style="color:var(--muted);line-height:1.7;">
+        <li><strong>news.jao.life</strong> — the HTML page itself. Fonts and styles are inlined,
+            so there are no font or stylesheet requests.</li>
+        <li><strong>support.jao.life/support.js</strong> — a small first-party script that renders
+            the ways you can support the project. It sets no cookies, runs no analytics,
+            and makes no network requests of its own.</li>
+      </ul>
+      <p class="out-note" style="margin-top:0.5rem;">
+        That's the complete list. No CDNs, no font services, no ad networks,
+        no social widgets, no analytics endpoints, no error-reporting services.
       </p>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we don't do</h3>
       <ul style="color:var(--muted);line-height:1.7;">
         <li>No cookies. None. Not even a session cookie.</li>
-        <li>No analytics, no pixels, no beacons, no fingerprinting.</li>
-        <li>No third-party requests from the page — no CDNs, no fonts, no ads, no trackers.</li>
-        <li>No third-party scripts, no analytics, no trackers. One first-party
-            support widget (<code>support.jao.life</code>) loads via
-            <code>&lt;script defer&gt;</code> to show ways you can support the site.
-            It runs no analytics and sets no cookies.</li>
+        <li>No analytics, no pixels, no beacons, no fingerprinting, no session recording.</li>
+        <li>No third-party requests. Everything the page loads is served from a jao.life subdomain.</li>
+        <li>No third-party scripts or trackers of any kind. The only script is our own support widget.</li>
         <li>No server-side logging of which stories you open or which categories you browse.</li>
-        <li>No account, no email, no login.</li>
+        <li>No account, no email, no login, no newsletter.</li>
+        <li>No selling, sharing, or transmitting data to anyone — there is no data to share.</li>
       </ul>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we do</h3>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li>Fetch RSS feeds server-side, with a generic User-Agent, and cache them at the edge for 5 minutes.</li>
+        <li>Fetch RSS feeds server-side with a generic User-Agent, and cache them at the edge for 5 minutes.
+            The publisher sees our server, never your browser.</li>
         <li>Strip your <code>Referer</code> header on every outbound click
             (<code>Referrer-Policy: no-referrer</code>).</li>
         <li>Route every story link through <a href="/out" style="color:var(--link);">/out</a>
-            so you can see the destination before you go, and so the publisher never learns you came from here.</li>
+            so you can inspect the destination before you go, and so the publisher never learns you came from here.</li>
         <li>Serve the same cached HTML to everyone — meaning your request is often served entirely
             from Cloudflare's edge without ever touching an origin server.</li>
+        <li>Enforce a strict Content-Security-Policy that blocks everything except the two
+            requests listed above.</li>
       </ul>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we technically must process</h3>
@@ -39,6 +56,13 @@ export async function onRequest() {
             We don't store it and don't correlate it with what you read.</li>
         <li>Standard Cloudflare edge logs may exist briefly for abuse prevention, under
             <a href="https://www.cloudflare.com/privacypolicy/" rel="noreferrer noopener" style="color:var(--link);">Cloudflare's privacy policy</a>.</li>
+      </ul>
+
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">Changes to this promise</h3>
+      <ul style="color:var(--muted);line-height:1.7;">
+        <li>If this ever changes — a new script, a new request, a new data flow — this page
+            will say so in plain language before it ships. The list above is meant to stay
+            literally accurate, not aspirational.</li>
       </ul>
 
       <p class="out-note" style="margin-top:1.25rem;">
