@@ -3,10 +3,10 @@ import { renderPage } from "./_shared/layout.js";
 export async function onRequest() {
   const body = `
     <div class="out-card">
-      <h2 class="out-host" style="font-size:var(--step-2);">Our privacy promise</h2>
+      <h2 class="out-host" style="font-size:var(--step-2);">My privacy promise</h2>
       <p class="out-note" style="margin-top:0.5rem;">
-        news.jao.life is built to be the least invasive way to read the news.
-        Here is exactly what we do, what we don't do, and what loads when you open a page.
+        I built news.jao.life to be the least invasive way to read the news.
+        Here is exactly what I do, what I don't do, and what loads when you open a page.
       </p>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">Every request a page makes</h3>
@@ -14,9 +14,9 @@ export async function onRequest() {
         When you open any page on this site, your browser makes exactly these requests:
       </p>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li><strong>news.jao.life</strong> — the HTML page itself. Fonts and styles are inlined,
+        <li><strong>news.jao.life</strong> — the HTML page itself. I inline fonts and styles,
             so there are no font or stylesheet requests.</li>
-        <li><strong>support.jao.life/support.js</strong> — a small first-party script that renders
+        <li><strong>support.jao.life/support.js</strong> — a small script I wrote myself that renders
             the ways you can support the project. It sets no cookies, runs no analytics,
             and makes no network requests of its own.</li>
       </ul>
@@ -25,48 +25,48 @@ export async function onRequest() {
         no social widgets, no analytics endpoints, no error-reporting services.
       </p>
 
-      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we don't do</h3>
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What I don't do</h3>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li>No cookies. None. Not even a session cookie.</li>
-        <li>No analytics, no pixels, no beacons, no fingerprinting, no session recording.</li>
-        <li>No third-party requests. Everything the page loads is served from a jao.life subdomain.</li>
-        <li>No third-party scripts or trackers of any kind. The only script is our own support widget.</li>
-        <li>No server-side logging of which stories you open or which categories you browse.</li>
-        <li>No account, no email, no login, no newsletter.</li>
-        <li>No selling, sharing, or transmitting data to anyone — there is no data to share.</li>
+        <li>I set no cookies. None. Not even a session cookie.</li>
+        <li>I run no analytics, no pixels, no beacons, no fingerprinting, no session recording.</li>
+        <li>I make no third-party requests. Everything the page loads is served from a jao.life subdomain.</li>
+        <li>I load no third-party scripts or trackers of any kind. The only script is my own support widget.</li>
+        <li>I do no server-side logging of which stories you open or which categories you browse.</li>
+        <li>I ask for no account, no email, no login, no newsletter.</li>
+        <li>I sell, share, and transmit nothing to anyone — there is no data to share.</li>
       </ul>
 
-      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we do</h3>
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What I do</h3>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li>Fetch RSS feeds server-side with a generic User-Agent, and cache them at the edge for 5 minutes.
-            The publisher sees our server, never your browser.</li>
-        <li>Strip your <code>Referer</code> header on every outbound click
+        <li>I fetch RSS feeds server-side with a generic User-Agent, and cache them at the edge for 5 minutes.
+            The publisher sees my server, never your browser.</li>
+        <li>I strip your <code>Referer</code> header on every outbound click
             (<code>Referrer-Policy: no-referrer</code>).</li>
-        <li>Route every story link through <a href="/out" style="color:var(--link);">/out</a>
+        <li>I route every story link through <a href="/out" style="color:var(--link);">/out</a>
             so you can inspect the destination before you go, and so the publisher never learns you came from here.</li>
-        <li>Serve the same cached HTML to everyone — meaning your request is often served entirely
+        <li>I serve the same cached HTML to everyone — meaning your request is often served entirely
             from Cloudflare's edge without ever touching an origin server.</li>
-        <li>Enforce a strict Content-Security-Policy that blocks everything except the two
+        <li>I enforce a strict Content-Security-Policy that blocks everything except the two
             requests listed above.</li>
       </ul>
 
-      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What we technically must process</h3>
+      <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What I technically must process</h3>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li>Your IP address reaches Cloudflare (our host) to deliver the page, as it does for any website.
-            We don't store it and don't correlate it with what you read.</li>
+        <li>Your IP address reaches Cloudflare (my host) to deliver the page, as it does for any website.
+            I don't store it and don't correlate it with what you read.</li>
         <li>Standard Cloudflare edge logs may exist briefly for abuse prevention, under
             <a href="https://www.cloudflare.com/privacypolicy/" rel="noreferrer noopener" style="color:var(--link);">Cloudflare's privacy policy</a>.</li>
       </ul>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">Changes to this promise</h3>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li>If this ever changes — a new script, a new request, a new data flow — this page
-            will say so in plain language before it ships. The list above is meant to stay
+        <li>If this ever changes — a new script, a new request, a new data flow — I'll say so
+            on this page in plain language before it ships. I mean to keep the list above
             literally accurate, not aspirational.</li>
       </ul>
 
       <p class="out-note" style="margin-top:1.25rem;">
-        That's the whole story. If you have questions, the source lives on
+        That's the whole story. If you have questions, find me at
         <a href="https://jao.life" rel="noreferrer noopener" style="color:var(--link);">jao.life</a>.
       </p>
 
