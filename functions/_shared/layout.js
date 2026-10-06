@@ -8,15 +8,12 @@ export function renderPage({ title, body, categories, query = "" }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0f172a">
-  <meta name="description" content="A privacy-first, snippet-only RSS reader. Headlines link out to original publishers. No tracking, no cookies, no analytics.">
+  <meta name="description" content="A privacy-first, snippet-only RSS reader. Headlines link out to original publishers. No tracking, no cookies, no analytics, no scripts.">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="index, follow">
   <meta name="color-scheme" content="dark">
   <title>${safeTitle}</title>
   <style>${styles()}</style>
-  <script src="https://support.jao.life/support.js"
-          crossorigin="anonymous"
-          defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -47,9 +44,7 @@ export function renderPage({ title, body, categories, query = "" }) {
         <strong>I built this to be private by design.</strong>
         I show <em>headlines and short snippets only</em>. Every story opens a
         preview page first, then links out to the original publisher with
-        <em>no referrer</em>. No cookies. No analytics. The only script on the page is
-        my own support widget (<em>support.jao.life</em>), which sets no
-        cookies and does no tracking.
+        <em>no referrer</em>. No cookies. No analytics. No scripts at all.
         <a href="/privacy" rel="noreferrer">Read my full promise →</a>
       </div>
 
@@ -70,7 +65,7 @@ export function renderPage({ title, body, categories, query = "" }) {
         I make <a href="https://jao.life" rel="noreferrer noopener">jao.life</a> — a privacy-first ecosystem built by one indie developer. This subdomain is part of it.
       </div>
       <div class="footer-meta">
-        Snippet aggregator · Headlines link to original publishers · I host no full articles here · No tracking · No cookies · No analytics · One support script I wrote myself, no trackers
+        Snippet aggregator · Headlines link to original publishers · I host no full articles here · No tracking · No cookies · No analytics · No scripts
       </div>
     </footer>
   </div>
