@@ -11,26 +11,23 @@ export async function onRequest() {
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">Every request a page makes</h3>
       <p class="out-note" style="margin-top:0;">
-        When you open any page on this site, your browser makes exactly these requests:
+        When you open any page on this site, your browser makes exactly one request:
       </p>
       <ul style="color:var(--muted);line-height:1.7;">
-        <li><strong>news.jao.life</strong> — the HTML page itself. I inline fonts and styles,
-            so there are no font or stylesheet requests.</li>
-        <li><strong>support.jao.life/support.js</strong> — a small script I wrote myself that renders
-            the ways you can support the project. It sets no cookies, runs no analytics,
-            and makes no network requests of its own.</li>
+        <li><strong>news.jao.life</strong> — the HTML page itself. I inline fonts and styles
+            and run no JavaScript at all, so there are no font, stylesheet, or script requests.</li>
       </ul>
       <p class="out-note" style="margin-top:0.5rem;">
         That's the complete list. No CDNs, no font services, no ad networks,
-        no social widgets, no analytics endpoints, no error-reporting services.
+        no social widgets, no analytics endpoints, no error-reporting services, no scripts.
       </p>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What I don't do</h3>
       <ul style="color:var(--muted);line-height:1.7;">
         <li>I set no cookies. None. Not even a session cookie.</li>
         <li>I run no analytics, no pixels, no beacons, no fingerprinting, no session recording.</li>
-        <li>I make no third-party requests. Everything the page loads is served from a jao.life subdomain.</li>
-        <li>I load no third-party scripts or trackers of any kind. The only script is my own support widget.</li>
+        <li>I make no third-party requests. The page loads nothing but itself.</li>
+        <li>I load no scripts or trackers of any kind. The page contains zero JavaScript.</li>
         <li>I do no server-side logging of which stories you open or which categories you browse.</li>
         <li>I ask for no account, no email, no login, no newsletter.</li>
         <li>I sell, share, and transmit nothing to anyone — there is no data to share.</li>
@@ -46,8 +43,8 @@ export async function onRequest() {
             so you can inspect the destination before you go, and so the publisher never learns you came from here.</li>
         <li>I serve the same cached HTML to everyone — meaning your request is often served entirely
             from Cloudflare's edge without ever touching an origin server.</li>
-        <li>I enforce a strict Content-Security-Policy that blocks everything except the two
-            requests listed above.</li>
+        <li>I enforce a strict Content-Security-Policy that permits only the single
+            request for the page itself — <code>script-src 'none'</code> blocks all JavaScript.</li>
       </ul>
 
       <h3 style="color:var(--accent);margin:1.25rem 0 0.4rem;">What I technically must process</h3>
@@ -96,7 +93,7 @@ export async function onRequest() {
         "style-src 'unsafe-inline'",
         "img-src 'self' data:",
         "font-src 'none'",
-        "script-src https://support.jao.life",
+        "script-src 'none'",
         "connect-src 'none'",
         "form-action 'none'",
         "frame-ancestors 'none'",
