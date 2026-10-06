@@ -101,7 +101,7 @@ export function withPrivacyHeaders(res) {
       "style-src 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'none'",
-      "script-src https://support.jao.life",
+      "script-src 'none'",
       "connect-src 'none'",
       "form-action 'self'",
       "frame-ancestors 'none'",
